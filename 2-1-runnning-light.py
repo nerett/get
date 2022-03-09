@@ -14,6 +14,6 @@ for i in range( 3 ):
         gpio.output( k, 1 )
         time.sleep( 0.2 )
         gpio.output( k, 0 )
-        time.sleep( 0.2 )
+        #time.sleep( 0.2 )
 
 gpio.cleanup()

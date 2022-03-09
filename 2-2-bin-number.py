@@ -15,11 +15,11 @@ number_256 = [ 0, 0, 0, 0, 0, 0, 0, 0 ] #переполнение
 
 gpio.setup( dac, gpio.OUT )
 
-#gpio.output( dac, number_255 )
+gpio.output( dac, number_255 )
 #gpio.output( dac, number_127 )
 #gpio.output( dac, number_64 )
 #gpio.output( dac, number_32 )
-gpio.output( dac, number_5 )
+#gpio.output( dac, number_5 )
 #gpio.output( dac, number_0 )
 #gpio.output( dac, number_256 )
 

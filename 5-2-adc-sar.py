@@ -21,20 +21,24 @@ def decimal2binary( value ):
 
 def adc():
     retvalue = 0
-    for decVtest in range( 2 ** bdepth ):
+    decVtest = 0
+    for testbit in reversed( range( bdepth ) ):
+        decVtest = retvalue + 2 ** testbit
         gpio.output( dac, decimal2binary( decVtest ) )
-        time.sleep( 0.001 )
+        #print( decVtest )
+        #time.sleep( 0.0001 )
+        time.sleep( 0.1 )
         compsignal = gpio.input( comp )
 
-        if compsignal == 0: #если значение на ЦАП больше исследуемого
-            retvalue = decVtest
-            break
+        if compsignal == 1: #если значение на ЦАП не больше исследуемого
+            retvalue += 2 ** testbit
+            #print( 'true' )
 
     return retvalue
 
 
 try:
-    while 1:
+    while True:
         decVfind = adc()
         binVfind = decimal2binary( decVfind )
 
@@ -42,7 +46,7 @@ try:
         print('binary V = {}'.format( binVfind ))
         print('V = {}'.format( decVfind / ( 2 ** bdepth ) * Vref ))
         print( '' )
-        #time.sleep( 0.01 )
+        #time.sleep( 1 )
 
 
 finally:

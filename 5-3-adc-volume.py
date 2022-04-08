@@ -43,7 +43,10 @@ try:
     while True:
         decVfind = adc()
         binVfind = decimal2binary( decVfind )
-        gpio.output( leds, binVfind )
+
+        volume = round( decVfind / ( 2 ** bdepth ) * bdepth ) #эффект "громкости"
+        gpio.output( leds[:volume], 1 )
+        gpio.output( leds[volume:], 0 )
 
         print('decimal V = {}'.format( decVfind ))
         print('binary V = {}'.format( binVfind ))
@@ -53,7 +56,5 @@ try:
 
 
 finally:
-    gpio.output( dac, 0 )
-    gpio.output( troyka, 0 )
-    gpio.output( leds, 0 )
+    gpio.output( dac + leds + [troyka], 0 )
     gpio.cleanup()

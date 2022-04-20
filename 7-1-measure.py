@@ -30,7 +30,8 @@ def adc():
         decVtest = retvalue + 2 ** testbit
         gpio.output( dac, decimal2binary( decVtest ) )
         #print( decVtest )
-        time.sleep( 0.0001 )
+        #time.sleep( 0.0001 ) #более-менее рабочее
+        time.sleep( 0.0005 )
         #time.sleep( 0.1 )
         compsignal = gpio.input( comp )
 
@@ -76,13 +77,6 @@ try:
     end_time = time.time()
     duration = end_time - start_time
 
-finally:
-    gpio.output( dac + leds + [troyka], 0 )
-    gpio.cleanup()
-
-    print('data = {}'.format( data ))
-    print('start time = {}'.format( start_time ))
-    print('end time = {}'.format( end_time ))
     print('duration = {} s'.format( duration ))
 
     mplot.plot( data )
@@ -91,4 +85,18 @@ finally:
     with open( "data.txt", "w" ) as datafile:
         datafile.write( data_str )
 
+    sample_rate = len( data ) / duration
+    quantization = Vref / ( 2 ** bdepth )
+
+    print('sample rate = {} Hz'.format( sample_rate ))
+    print('quantization = {} V'.format( quantization ))
+
+    with open( "settings.txt", "w" ) as settingsfile:
+        settingsfile.write( 'samplerate={}\n'.format( sample_rate ) )
+        settingsfile.write( 'quantization={}'.format( quantization ) )
+
     mplot.show()
+
+finally:
+    gpio.output( dac + leds + [troyka], 0 )
+    gpio.cleanup()

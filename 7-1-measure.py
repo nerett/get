@@ -31,7 +31,7 @@ def adc():
         gpio.output( dac, decimal2binary( decVtest ) )
         #print( decVtest )
         #time.sleep( 0.0001 ) #более-менее рабочее
-        time.sleep( 0.0005 )
+        time.sleep( 0.0007 )
         #time.sleep( 0.1 )
         compsignal = gpio.input( comp )
 

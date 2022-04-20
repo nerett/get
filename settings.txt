@@ -1,2 +1,2 @@
-samplerate=143.5824491518903
+samplerate=106.487160800398
 quantization=0.012890625

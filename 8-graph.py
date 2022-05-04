@@ -14,29 +14,20 @@ d_data = npy.loadtxt( "data.txt", dtype = int ) #digital data (0-255)
 samplerate = settings[0]
 quantization = settings[1]
 size = d_data.size
+a_data = d_data / ( 2 ** bdepth ) * Vref #analog data (0V - Vref V)
+period = 1 / samplerate
+maxtime = period * d_data.size
+datatime = npy.linspace( 0, maxtime , num = d_data.size )
+chargetime = d_data.argmax() * period
+unchargetime = max( datatime ) - chargetime
 
 print('samplerate = {}'.format( samplerate ))
 print('quantization = {}'.format( quantization ))
 print('d_data = {}'.format( d_data ))
-#print( type( d_data ) )
-
-a_data = d_data / ( 2 ** bdepth ) * Vref #analog data (0V - Vref V)
 print('a_data = {}'.format( a_data ))
-
-period = 1 / samplerate
-maxtime = period * d_data.size
-
 print('period = {}'.format( period ))
 print('maxtime = {}'.format( maxtime ))
 print('size = {}'.format( d_data.size ))
-
-#datatime = npy.arange( 0, maxtime, period )
-datatime = npy.linspace( 0, maxtime , num = d_data.size )
-#datatime = npy.arange( 0, maxtime, period )
-
-chargetime = d_data.argmax() * period
-unchargetime = max( datatime ) - chargetime
-
 print('datatime = {}'.format( datatime ))
 
 
@@ -53,7 +44,7 @@ ax.grid( True, "minor", ls = ":" )
 #ax.xaxis.set_major_locator( NullLocator )
 markrate = int( size / N_markers )
 ax.plot( datatime, a_data, marker = 'v', markersize = 5, markeredgecolor = "red", markevery = markrate, color = "blue", alpha = 1, linewidth = 0.2, linestyle = "--", label = "V=V(t)" )
-#ax.legend()
+ax.legend()
 fig.savefig( "graph.png" )
 fig.savefig( "graph.svg" )
 #mplot.show()
